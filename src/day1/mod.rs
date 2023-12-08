@@ -21,6 +21,9 @@ pub fn puzzle_a () {
 
     let answer: Vec<u32> = answer.iter().map(|s| s.parse::<u32>().unwrap()).collect();
     println!("{:#?}", answer);
+
+    let answer: u32 = answer.iter().sum();
+    println!("{:#?}", answer);
     
 }
 
