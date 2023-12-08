@@ -57,14 +57,18 @@ pub fn puzzle_b () {
         string_vec.push(line);
     }
 
-    let answer: Vec<(String, usize)> = extract_spell_nums(&string_vec[3]).unwrap();
+    let answer: Vec<(String, usize)> = combine_vectors_to_string(&string_vec[0]);
     println!("{:#?}", answer);
-    let answer: Vec<(String, usize)> = extract_digit_nums(&string_vec[3]).unwrap();
+
+    let answer: Vec<Vec<(String, usize)>> = string_vec.iter().map(|s| {
+        combine_vectors_to_string(&s)
+    }).collect();
     println!("{:#?}", answer);
+
 
 }
 
-fn extract_spell_nums(single_string: &String) -> Result<Vec<(String, usize)>, Error> {    
+fn extract_spell_nums(single_string: &String) -> Vec<(String, usize)> {    
     let converter = [
         ("one", '1'),
         ("two", '2'),
@@ -85,10 +89,10 @@ fn extract_spell_nums(single_string: &String) -> Result<Vec<(String, usize)>, Er
         }
     }
     
-    Ok(result)
+    result
 }
 
-fn extract_digit_nums(single_string: &String) -> Result<Vec<(String, usize)>, Error> {
+fn extract_digit_nums(single_string: &String) -> Vec<(String, usize)>{
     let mut result: Vec<(String, usize)> = Vec::new();
 
     for (index, char) in single_string.char_indices() {
@@ -97,5 +101,17 @@ fn extract_digit_nums(single_string: &String) -> Result<Vec<(String, usize)>, Er
         }
     }
 
-    Ok(result)
+    result
+}
+
+fn combine_vectors_to_string (single_string: &String) -> Vec<(String, usize)> {
+    let mut vec1: Vec<(String, usize)> = extract_spell_nums(single_string);
+    let vec2: Vec<(String, usize)> = extract_digit_nums(single_string);
+    vec1.extend(vec2);
+
+    vec1.sort_by(|a, b| {
+        a.1.cmp(&b.1)
+    });
+
+    vec1
 }
