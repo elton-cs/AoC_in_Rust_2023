@@ -1,7 +1,7 @@
 use std::{fs::File, io::{BufReader, BufRead}, fmt::Error};
 
 pub fn puzzle_a () {
-    let path: &str = "src/day1/input_example.txt";
+    let path: &str = "src/day1/input_real.txt";
     let file: File = File::open(path).expect("could not open file");
     let reader: BufReader<File> = BufReader::new(file);
 
@@ -11,19 +11,27 @@ pub fn puzzle_a () {
         let line: String = line.expect("unable to read line");
         string_vec.push(line);
     }
-    println!("{:#?}", string_vec);
     
     let answer: Vec<Vec<String>>= string_vec.iter().map(|s| extract_digit_string(s).unwrap()).collect();
-    println!("{:#?}", answer);
 
     let answer: Vec<String> = answer.iter().map(|s| create_num_string(s)).collect();
-    println!("{:#?}", answer);
 
     let answer: Vec<u32> = answer.iter().map(|s| s.parse::<u32>().unwrap()).collect();
-    println!("{:#?}", answer);
 
     let answer: u32 = answer.iter().sum();
     println!("{:#?}", answer);
+
+    // Refactor solution
+    let answer: Vec<u32> = string_vec.iter().map(|s| {
+        let digit_string_vec = extract_digit_string(s).unwrap();
+        let num_string_vec = create_num_string(&digit_string_vec);
+        let num_vec = num_string_vec.parse::<u32>().unwrap();
+        num_vec
+    }).collect();
+
+    let answer: u32 = answer.iter().sum();
+    println!("{:#?}", answer);
+
     
 }
 
