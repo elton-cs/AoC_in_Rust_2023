@@ -40,6 +40,11 @@ fn create_num_string(vec_of_nums: &Vec<String>) -> String {
     number_string
 }
 
+
+
+
+
+
 pub fn puzzle_b () {
     let path: &str = "src/day1/input_example_b.txt";
     let file: File = File::open(path).expect("could not open file");
@@ -54,18 +59,43 @@ pub fn puzzle_b () {
 
     let answer: Vec<(String, usize)> = extract_spell_nums(&string_vec[3]).unwrap();
     println!("{:#?}", answer);
+    let answer: Vec<(String, usize)> = extract_digit_nums(&string_vec[3]).unwrap();
+    println!("{:#?}", answer);
+
 }
 
-fn extract_spell_nums(single_string: &String) -> Result<Vec<(String, usize)>, Error> {
-    let to_match_spelled = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine" ];
+fn extract_spell_nums(single_string: &String) -> Result<Vec<(String, usize)>, Error> {    
+    let converter = [
+        ("one", '1'),
+        ("two", '2'),
+        ("three", '3'),
+        ("four", '4'),
+        ("five", '5'),
+        ("six", '6'),
+        ("seven", '7'),
+        ("eight", '8'),
+        ("nine", '9'),
+        ];
+    
     let mut result: Vec<(String, usize)> = Vec::new();
 
-    for number_in_text in to_match_spelled {
-        // let index = single_string.find(number).unwrap();
-        if let Some(index) = single_string.find(number_in_text) {
-            result.push((number_in_text.to_string(), index))
+    for number_in_text in converter {
+        if let Some(index) = single_string.find(number_in_text.0) {
+            result.push((number_in_text.1.to_string(), index))
         }
     }
     
+    Ok(result)
+}
+
+fn extract_digit_nums(single_string: &String) -> Result<Vec<(String, usize)>, Error> {
+    let mut result: Vec<(String, usize)> = Vec::new();
+
+    for (index, char) in single_string.char_indices() {
+        if char.is_digit(10) {
+            result.push((char.to_string(), index));
+        }
+    }
+
     Ok(result)
 }
