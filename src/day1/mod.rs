@@ -19,9 +19,12 @@ pub fn puzzle_a () {
     let answer: Vec<String> = answer.iter().map(|s| create_num_string(s)).collect();
     println!("{:#?}", answer);
 
+    let answer: Vec<u32> = answer.iter().map(|s| s.parse::<u32>().unwrap()).collect();
+    println!("{:#?}", answer);
+    
 }
 
-pub fn extract_digit_string(single_string: &String) -> Result<Vec<String>, Error>  {
+fn extract_digit_string(single_string: &String) -> Result<Vec<String>, Error>  {
 
     let num_vec_str: Vec<&str> = single_string.matches(char::is_numeric).collect();
     let num_vec = num_vec_str.iter().map(|s| s.to_string()).collect();
@@ -29,7 +32,7 @@ pub fn extract_digit_string(single_string: &String) -> Result<Vec<String>, Error
     Ok(num_vec)
 }
 
-pub fn create_num_string(vec_of_nums: &Vec<String>) -> String {
+fn create_num_string(vec_of_nums: &Vec<String>) -> String {
     let size: usize = vec_of_nums.len();
     let last_idx = size - 1; 
 
