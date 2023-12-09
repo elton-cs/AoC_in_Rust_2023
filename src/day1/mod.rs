@@ -57,9 +57,6 @@ pub fn puzzle_b () {
         string_vec.push(line);
     }
 
-    // let answer: Vec<(String, usize)> = combine_vectors_to_string(&string_vec[0]);
-    // println!("{:#?}", answer);
-
     let answer: Vec<String> = string_vec.iter().map(|s| {
         let transform = combine_vectors_to_string(&s);
         let transform = simplify_vector_tuple(&transform);
@@ -69,9 +66,11 @@ pub fn puzzle_b () {
     }).collect();
     println!("{:#?}", answer);
 
-
-    // println!("{:#?}", answer);
-
+    let answer: Vec<u32> = answer.iter().map(|s| {
+        s.parse::<u32>().unwrap()
+    }).collect();
+    let answer: u32 = answer.iter().sum();
+    println!("{:#?}", answer);
 
 }
 
