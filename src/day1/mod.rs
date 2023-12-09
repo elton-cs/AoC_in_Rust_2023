@@ -57,14 +57,20 @@ pub fn puzzle_b () {
         string_vec.push(line);
     }
 
-    let answer: Vec<(String, usize)> = combine_vectors_to_string(&string_vec[0]);
-    println!("{:#?}", answer);
+    // let answer: Vec<(String, usize)> = combine_vectors_to_string(&string_vec[0]);
+    // println!("{:#?}", answer);
 
     let answer: Vec<String> = string_vec.iter().map(|s| {
-        let vec_of_tuple = combine_vectors_to_string(&s);
-        simplify_vector_tuple(&vec_of_tuple)
+        let transform = combine_vectors_to_string(&s);
+        let transform = simplify_vector_tuple(&transform);
+        let transform = first_and_last(&transform);
+
+        transform
     }).collect();
     println!("{:#?}", answer);
+
+
+    // println!("{:#?}", answer);
 
 
 }
@@ -124,4 +130,15 @@ fn simplify_vector_tuple (vec_of_tuple: &Vec<(String, usize)>) -> String {
     }
 
     temp_string
+}
+
+fn first_and_last (number_string: &String) -> String {
+    let mut result = String::new();
+
+    let length = number_string.len();
+    let chars: Vec<char> = number_string.chars().collect();
+    result.push(chars[0]);
+    result.push(chars[length -1]);
+
+    result
 }
