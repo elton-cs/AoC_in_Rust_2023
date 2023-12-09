@@ -1,10 +1,11 @@
 use std::{fs::File, io::{BufReader, BufRead}, fmt::Error, usize};
 
+// PUZZLE A
 pub fn puzzle_a () {
+
     let path: &str = "src/day1/input_real.txt";
     let file: File = File::open(path).expect("could not open file");
     let reader: BufReader<File> = BufReader::new(file);
-
     let mut string_vec: Vec<String> = Vec::new();
 
     for line in reader.lines() {
@@ -23,28 +24,12 @@ pub fn puzzle_a () {
     println!("{:#?}", answer);
 }
 
-fn extract_digit_string(single_string: &String) -> Result<Vec<String>, Error>  {
-
-    let num_vec_str: Vec<&str> = single_string.matches(char::is_numeric).collect();
-    let num_vec = num_vec_str.iter().map(|s| s.to_string()).collect();
-    Ok(num_vec)
-}
-
-fn create_num_string(vec_of_nums: &Vec<String>) -> String {
-    let size: usize = vec_of_nums.len();
-    let last_idx = size - 1; 
-
-    let mut number_string: String = String::new();
-    number_string.push_str(vec_of_nums[0].as_str());
-    number_string.push_str(vec_of_nums[last_idx].as_str());
-    number_string
-}
-
+// PUZZLE B
 pub fn puzzle_b () {
+
     let path: &str = "src/day1/input_real.txt";
     let file: File = File::open(path).expect("could not open file");
     let reader: BufReader<File> = BufReader::new(file);
-
     let mut string_vec: Vec<String> = Vec::new();
 
     for line in reader.lines() {
@@ -59,16 +44,38 @@ pub fn puzzle_b () {
 
         transform
     }).collect();
-    println!("{:#?}", answer);
 
     let answer: Vec<u32> = answer.iter().map(|s| {
         s.parse::<u32>().unwrap()
     }).collect();
+
     let answer: u32 = answer.iter().sum();
     println!("{:#?}", answer);
-
 }
+
+
+
+// helper functions
+fn extract_digit_string(single_string: &String) -> Result<Vec<String>, Error>  {
+
+    let num_vec_str: Vec<&str> = single_string.matches(char::is_numeric).collect();
+    let num_vec = num_vec_str.iter().map(|s| s.to_string()).collect();
+    Ok(num_vec)
+}
+
+fn create_num_string(vec_of_nums: &Vec<String>) -> String {
+
+    let size: usize = vec_of_nums.len();
+    let last_idx = size - 1; 
+    let mut number_string: String = String::new();
+
+    number_string.push_str(vec_of_nums[0].as_str());
+    number_string.push_str(vec_of_nums[last_idx].as_str());
+    number_string
+}
+
 fn extract_spell_nums(single_string: &String) -> Vec<(String, usize)> {    
+
     let converter = [
         ("one", '1'),
         ("two", '2'),
@@ -96,6 +103,7 @@ fn extract_spell_nums(single_string: &String) -> Vec<(String, usize)> {
 }
 
 fn extract_digit_nums(single_string: &String) -> Vec<(String, usize)>{
+
     let mut result: Vec<(String, usize)> = Vec::new();
 
     for (index, char) in single_string.char_indices() {
@@ -110,8 +118,8 @@ fn extract_digit_nums(single_string: &String) -> Vec<(String, usize)>{
 fn combine_vectors_to_string (single_string: &String) -> Vec<(String, usize)> {
     let mut vec1: Vec<(String, usize)> = extract_spell_nums(single_string);
     let vec2: Vec<(String, usize)> = extract_digit_nums(single_string);
-    vec1.extend(vec2);
 
+    vec1.extend(vec2);
     vec1.sort_by(|a, b| {
         a.1.cmp(&b.1)
     });
@@ -120,7 +128,9 @@ fn combine_vectors_to_string (single_string: &String) -> Vec<(String, usize)> {
 }
 
 fn simplify_vector_tuple (vec_of_tuple: &Vec<(String, usize)>) -> String {
+
     let mut temp_string = String::new();
+
     for item in vec_of_tuple {
         temp_string.push(item.0.to_string().chars().next().unwrap())
     }
@@ -129,10 +139,11 @@ fn simplify_vector_tuple (vec_of_tuple: &Vec<(String, usize)>) -> String {
 }
 
 fn first_and_last (number_string: &String) -> String {
-    let mut result = String::new();
 
+    let mut result = String::new();
     let length = number_string.len();
     let chars: Vec<char> = number_string.chars().collect();
+
     result.push(chars[0]);
     result.push(chars[length -1]);
 
