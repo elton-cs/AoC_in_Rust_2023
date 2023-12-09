@@ -40,13 +40,8 @@ fn create_num_string(vec_of_nums: &Vec<String>) -> String {
     number_string
 }
 
-
-
-
-
-
 pub fn puzzle_b () {
-    let path: &str = "src/day1/input_example_b.txt";
+    let path: &str = "src/day1/input_real.txt";
     let file: File = File::open(path).expect("could not open file");
     let reader: BufReader<File> = BufReader::new(file);
 
@@ -73,7 +68,6 @@ pub fn puzzle_b () {
     println!("{:#?}", answer);
 
 }
-
 fn extract_spell_nums(single_string: &String) -> Vec<(String, usize)> {    
     let converter = [
         ("one", '1'),
@@ -90,8 +84,11 @@ fn extract_spell_nums(single_string: &String) -> Vec<(String, usize)> {
     let mut result: Vec<(String, usize)> = Vec::new();
 
     for number_in_text in converter {
-        if let Some(index) = single_string.find(number_in_text.0) {
-            result.push((number_in_text.1.to_string(), index))
+        let mut last_index = 0;
+        while let Some(index) = single_string[last_index..].find(number_in_text.0) {
+            let adjusted_index = last_index + index;
+            result.push((number_in_text.1.to_string(), adjusted_index));
+            last_index = adjusted_index + 1;
         }
     }
     
